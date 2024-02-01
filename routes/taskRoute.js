@@ -69,4 +69,19 @@ router.delete("/task", authMiddleware, async (req, res) => {
 
 })
 
+router.post("/add/sub/task", authMiddleware, async (req, res) => {
+
+    const {task_id, content} = req.body;
+    const newTask = new subtaskModel({task_id, content, status: false})
+    newTask.save()
+    .then(() => {
+        return (res.status(200).json({message: "Sub Task added successfully"}))
+    })
+    .catch((error) => {
+        return (
+            res.status(500).json({message: error.message})
+        )
+    })
+})
+
 module.exports = router;
