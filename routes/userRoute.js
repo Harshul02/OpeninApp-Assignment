@@ -33,4 +33,43 @@ router.post("/signup", async (req, res) => {
     }
   });
 
+  router.post("/login", async (req, res) => {
+    try {
+        // console.log(req.body);
+      const user = await User.findOne({
+        email: req.body.email,
+      });
+      if (!user) {
+        return res.status(200).send({
+          message: "User not found",
+          success: false,
+        });
+      }
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (!isMatch) {
+        return res.status(200).send({
+          message: "Invalid password",
+          success: false,
+        });
+      }
+      
+      const token = jwt.sign(
+        { userID: user._id },
+        process.env.jwt_secret,
+        { expiresIn: "24h" }
+      );
+    //   console.log(token);
+      res.status(200).send({
+        message: "Login successful",
+        success: true,
+        data: token,
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: error.message,
+        success: false,
+      });
+    }
+  });
+
   module.exports = router;
