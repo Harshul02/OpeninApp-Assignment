@@ -50,4 +50,23 @@ router.patch("/task", authMiddleware, async (req,res) =>{
             .catch((error) => res.status(501).json({message: error.message}))
 })
 
+router.patch("/task/priority", authMiddleware, async(req,res) => {
+
+    const {id, priority} = req.body;
+
+    taskModel.findByIdAndUpdate({_id: id}, {priority})
+    .then(() => res.status(200).json({message: "Task updated successfully"}))
+    .catch((error) => res.status(501).json({message: error.message}))
+
+})
+
+router.delete("/task", authMiddleware, async (req, res) => {
+
+    const {id} = req.body;
+    taskModel.findByIdAndDelete({_id: id})
+        .then(() => res.status(200).json({message: "Task deleted successfully"}))
+        .catch((error) => res.status(501).json({message: error.message}))
+
+})
+
 module.exports = router;
