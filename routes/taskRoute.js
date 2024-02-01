@@ -22,6 +22,12 @@ router.post("/add/task", authMiddleware, async (req,res) => {
                     res.status(500).json({message: error.message})
                 )
             })
+});
+
+router.get("/get/tasks", authMiddleware, async (req, res)=>{
+    taskModel.find({userId: req.body.userId})
+            .then((data) => res.status(200).json(data))
+            .catch((error) => res.status(501).json({message: error.message}))
 })
 
 module.exports = router;
