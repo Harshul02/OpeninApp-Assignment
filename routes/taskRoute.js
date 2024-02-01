@@ -96,4 +96,13 @@ router.patch("/sub/task", authMiddleware, async (req, res) =>{
     }
 })
 
+router.get("/sub/task", authMiddleware, async (req, res) => {
+
+    const {task_id} = req.body;
+    
+    subtaskModel.find({task_id: task_id})
+        .then((data) => res.status(200).json(data))
+        .catch((error) => res.status(501).json({message: error.message}))
+})
+
 module.exports = router;
