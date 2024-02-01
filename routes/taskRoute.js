@@ -84,4 +84,16 @@ router.post("/add/sub/task", authMiddleware, async (req, res) => {
     })
 })
 
+
+router.patch("/sub/task", authMiddleware, async (req, res) =>{
+
+    const {status, id} = req.body;
+    try {
+        await subtaskModel.findByIdAndUpdate({_id: id}, {status: status});
+        res.send("SubTask Updated Successfully")
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
+})
+
 module.exports = router;
