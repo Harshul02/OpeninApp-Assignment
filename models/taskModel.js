@@ -7,7 +7,7 @@ const Status = Object.freeze({
     DONE: "done"
 })
 
-const taskInstance = mongoose.Schema({
+const taskModel = mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     userId: { type: String, required: true },
@@ -17,8 +17,9 @@ const taskInstance = mongoose.Schema({
 }, { timestamps: true });
 
 
+const Task = mongoose.model("Task", taskModel);
 
-
-const taskModel = mongoose.model("Task", taskInstance);
-export {Status};
-export default taskModel;
+module.exports = {
+    taskModel: Task,
+    Status: Status
+};

@@ -8,7 +8,9 @@ const db = require('./database/db');
 app.use(cors())
 
 const userRoute = require('./routes/userRoute');
+const taskRoute = require('./routes/taskRoute');
 app.use('/api/', userRoute)
+app.use('/api/', taskRoute)
 
 
 const port = process.env.PORT;
