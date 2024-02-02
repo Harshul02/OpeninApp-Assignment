@@ -4,7 +4,7 @@ const {taskModel, Status} = require("../models/taskModel");
 const userModel = require("../models/userModel");
 const subtaskModel = require("../models/subtaskModel");
 const authMiddleware = require("../middlewares/authMiddleware");
-
+const cronScheduler = require("../services/cronScheduler");
 
 router.post("/add/task", authMiddleware, async (req,res) => {
 
@@ -14,7 +14,7 @@ router.post("/add/task", authMiddleware, async (req,res) => {
         const newTask = new taskModel({title, description, userId, due_date})
         newTask.save()
             .then(() => {
-                // cronScheduler.createTaskScheduler()
+                cronScheduler.createTaskScheduler()
                 return (res.status(200).json({message: "Task added successfully"}))
             })
             .catch((error) => {
